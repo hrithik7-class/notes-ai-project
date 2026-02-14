@@ -7,8 +7,19 @@ export async function summarizeNoteWithAI(content: string) {
     const output = await client.textGeneration({
       model: "FreedomIntelligence/AceGPT-v2-8B-Chat",
       inputs: `
-      Summarize the following text into 3-5 clear bullet points:
-      ${content}`,
+You are a helpful assistant.
+
+Summarize the content below into 3-5 short bullet points.
+
+IMPORTANT:
+- Each point must start with "• "
+- Do NOT write a paragraph.
+- Do NOT write an introduction.
+- Only return bullet points.
+
+Content:
+${content}
+`,
       parameters: {
         temperature: 0.3,
         max_new_tokens: 200,

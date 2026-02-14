@@ -32,10 +32,18 @@ export default function NoteForm() {
     }
   };
 
+  // =============================
+  // SUCCESS VIEW
+  // =============================
   if (result) {
+    const fullUrl =
+      typeof window !== "undefined"
+        ? `${window.location.origin}${result.url}`
+        : result.url;
+
     const handleCopyUrl = async () => {
       try {
-        await navigator.clipboard.writeText(result.url);
+        await navigator.clipboard.writeText(fullUrl);
         toast.success("Link copied to clipboard");
       } catch {
         toast.error("Failed to copy link");
@@ -52,7 +60,7 @@ export default function NoteForm() {
     };
 
     const handleCopyBoth = async () => {
-      const text = `Secure note link: ${result.url}\nPassword: ${result.pass}`;
+      const text = `Secure note link: ${fullUrl}\nPassword: ${result.pass}`;
       try {
         await navigator.clipboard.writeText(text);
         toast.success("Link and password copied");
@@ -69,11 +77,12 @@ export default function NoteForm() {
       <Card className="space-y-4">
         <h2 className="text-xl font-bold">Vault Secured ✅</h2>
 
+        {/* URL Section */}
         <div className="space-y-2">
           <p className="text-sm text-slate-500">Share this link:</p>
           <div className="flex items-center gap-2">
             <div className="flex-1 bg-slate-100 p-3 rounded-lg font-mono break-all">
-              {result.url}
+              {fullUrl}
             </div>
             <Button type="button" onClick={handleCopyUrl}>
               Copy
@@ -81,6 +90,7 @@ export default function NoteForm() {
           </div>
         </div>
 
+        {/* Password Section */}
         <div className="space-y-2">
           <p className="text-sm text-slate-500">Password:</p>
           <div className="flex items-center gap-2">
@@ -97,6 +107,7 @@ export default function NoteForm() {
           </div>
         </div>
 
+        {/* Action Buttons */}
         <div className="pt-4 flex flex-col sm:flex-row gap-3 justify-end">
           <Button
             type="button"
@@ -118,11 +129,13 @@ export default function NoteForm() {
     );
   }
 
+  // =============================
+  // FORM VIEW
+  // =============================
   return (
     <Card>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="relative">
-         
           <span
             className={`absolute right-3 top-2 text-xs font-medium ${
               content.length > 450 ? "text-red-500" : "text-slate-400"
@@ -137,12 +150,12 @@ export default function NoteForm() {
             maxLength={500}
             placeholder="Enter your private note..."
             className={`w-full min-h-[200px] border rounded-xl p-4 pr-16 outline-none transition
-      ${
-        content.length > 450
-          ? "border-red-400 focus:border-red-500"
-          : "border-slate-300 focus:border-slate-500"
-      }
-    `}
+              ${
+                content.length > 450
+                  ? "border-red-400 focus:border-red-500"
+                  : "border-slate-300 focus:border-slate-500"
+              }
+            `}
           />
         </div>
 
