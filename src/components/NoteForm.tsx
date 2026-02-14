@@ -32,9 +32,6 @@ export default function NoteForm() {
     }
   };
 
-  // =============================
-  // SUCCESS VIEW
-  // =============================
   if (result) {
     const fullUrl =
       typeof window !== "undefined"
@@ -129,9 +126,7 @@ export default function NoteForm() {
     );
   }
 
-  // =============================
-  // FORM VIEW
-  // =============================
+
   return (
     <Card>
       <form onSubmit={handleSubmit} className="space-y-6">
